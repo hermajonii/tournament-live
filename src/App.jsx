@@ -31,6 +31,7 @@ function App() {
     e.preventDefault();
     // Sadržaj koji će se upisati u fajl
     const content = { first: Player1, second: Player2, key:key2};
+    console.log(content)
     try {
       const res = await fetch("https://tournament-backend-app.onrender.com/change-players", {
         method: "POST",
@@ -39,6 +40,7 @@ function App() {
       });
       const data = await res.json();
       setMessage2(data.message2)
+      console.error(data);
     } catch (err) {
       console.error("Greška:", err.message);
     }
