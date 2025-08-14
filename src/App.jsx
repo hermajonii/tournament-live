@@ -6,8 +6,11 @@ function App() {
   const [score1, setScore1] = useState("");
   const [score2, setScore2] = useState("");
   const [key, setKey] = useState("");
+  const [key2, setKey2] = useState("");
   const [message, setMessage] = useState("");
-
+  const [message2, setMessage2] = useState("");
+  const [Player1, setPlayer1] = useState("");
+  const [Player2, setPlayer2] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Sadržaj koji će se upisati u fajl
@@ -24,12 +27,29 @@ function App() {
       console.error("Greška:", err.message);
     }
   };
+  const handleSubmit2 = async (e) => {
+    e.preventDefault();
+    // Sadržaj koji će se upisati u fajl
+    const content = { first: Player1, second: Player2, key:key2};
+    try {
+      const res = await fetch("https://tournament-backend-app.onrender.com/change-players", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(content),
+      });
+      const data = await res.json();
+      setMessage2(data.message2)
+    } catch (err) {
+      console.error("Greška:", err.message);
+    }
+  };
+
 
   return (
     
     <>
        
-    <div className="d-flex align-items-center justify-content-center vh-100 bg-dark">
+    <div className="d-flex align-items-center justify-content-center bg-dark">
       <div className="card shadow-lg bg-dark text-light p-4" style={{ width: "100%", maxWidth: "450px" }}>
         <h1 className="text-center mb-4 text-info">Rezultat utakmice</h1>
         <form onSubmit={handleSubmit}>
@@ -96,7 +116,6 @@ function App() {
               placeholder="very secret key"
               value={key}
               onChange={(e) => setKey(e.target.value)}
-              required
             />
           </div>
           <p className="text-info text-center">{message}</p>
@@ -106,7 +125,54 @@ function App() {
         </form>
       </div>
     </div>
-  
+    <div className="d-flex align-items-center justify-content-center bg-dark pt-3">
+      <div className="card shadow-lg bg-dark text-light p-4" style={{ width: "100%", maxWidth: "450px" }}>
+        <h1 className="text-center mb-4 text-info"> Zamena mesta: </h1>
+        <form onSubmit={handleSubmit2}>
+          <div className="row mb-3 text-light text-center">
+            <div className="col">
+              <label className="form-label">Igrač 1</label>
+              <input
+                type="text"
+                className="form-control text-center"
+                placeholder=""
+                value={Player1}
+                onChange={(e) => setPlayer1(e.target.value)}
+                required
+                min = "0" 
+              />
+            </div>
+            sa
+            <div className="col">
+              <label className="form-label">Igrač 2</label>
+              <input
+                type="text"
+                className="form-control text-center"
+                placeholder=""
+                value={Player2}
+                onChange={(e) => setPlayer2(e.target.value)}
+                required
+                min = "0" 
+              />
+            </div>
+          </div>
+          <div className="my-4">
+            <input
+              type="password"
+              className="form-control bg-dark border-0"
+              placeholder="very secret key"
+              value={key2}
+              onChange={(e) => setKey2(e.target.value)}
+            />
+          </div>
+         
+          <p className="text-info text-center">{message2}</p>
+          <button type="submit" className="btn btn-outline-light w-100 btn-lg">
+            ZAMENI
+          </button>
+        </form>
+      </div>
+    </div>
     </>
   )
 }
