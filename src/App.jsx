@@ -39,7 +39,6 @@ function App() {
       });
       const data = await res.json();
       setMessage2(data.message)
-      console.error(data);
     } catch (err) {
       console.error("Greška:", err.message);
     }
